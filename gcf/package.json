@@ -1,0 +1,13 @@
+{
+  "name": "wk-cloud-stats",
+  "version": "1.0.0",
+  "description": "Google Cloud Functions for the WK stats",
+  "main": "index.js",
+  "author": "Ross Hendry",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "superagent": "^3.8.2",
+    "superagent-bluebird-promise": "^4.2.0"
+  }
+}

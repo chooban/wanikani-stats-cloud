@@ -1,35 +1,37 @@
-const getStats = require('./lib/getstats').getStats;
+require('dotenv').config();
 
-exports.getStatsPs = (event, callback) => {
+const getWkStats = require('./lib/wanikani').getStats;
+
+const mongoDbUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DBNAME}`;
+
+const getStats = (event, callback) => {
   const message = JSON.parse((Buffer.from(event.data.data, 'base64').toString()));
 
   if (!message.apiKey) {
     callback(new Error("No API key provided"));
     return;
   }
-  getStats(message.apiKey)
-    .then(stats => {
-      console.log("Got stats: " + JSON.stringify(stats));
-      callback();
-    })
+
+  getWkStats(message.apiKey)
+    .then(saveStatsToMongo.bind(this, callback))
     .catch(error => {
       console.error(new Error("Error gettings stats: " + error));
       callback(error);
     });
 }
 
-exports.getStatsWs = (req, res) => {
-  if (req.body.apiKey === undefined) {
-    res.status(400).send('No key defined!');
-    return;
-  }
+const saveStatsToMongo = (callback, stats) => {
+  MongoClient.connect(mongoDbUrl, (err, db) => {
+    if (err) return callback(err);
 
-  getStats(req.body.apiKey)
-    .then(stats => {
-      res.status(200).send(stats);
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).send('Error retrieving stats');
-    });
+    const collection = db.collection(process.env.MONGO_COLLECTION);
+    collection.insert([stats]);
+
+    db.close();
+    callback();
+  });
+};
+
+module.exports = {
+  getStats
 };

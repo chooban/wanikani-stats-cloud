@@ -4,6 +4,9 @@ env: flex
 manual_scaling:
   instances: 1
 resources:
-  cpu: 1
+  cpu: 0.5
   memory_gb: 0.5
   disk_size_gb: 10
+
+env_variables:
+  API_KEY: "18388ad0-4bfb-4634-a0aa-f47750cc0d65"

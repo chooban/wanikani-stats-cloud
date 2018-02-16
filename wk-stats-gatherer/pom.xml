@@ -44,9 +44,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-  			<groupId>com.google.cloud</groupId>
-  			<artifactId>google-cloud-pubsub</artifactId>
-  			<version>0.32.0-beta</version>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-pubsub</artifactId>
+			<version>0.32.0-beta</version>
 		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
@@ -74,6 +74,26 @@
     		<artifactId>jackson-core</artifactId>
     		<version>2.9.0</version>
 		</dependency>
+		<dependency>
+  			<groupId>com.google.inject</groupId>
+  			<artifactId>guice</artifactId>
+  			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.google.inject.extensions</groupId>
+  			<artifactId>guice-servlet</artifactId>
+  			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.google.inject.extensions</groupId>
+  			<artifactId>guice-throwingproviders</artifactId>
+  			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.google.guava</groupId>
+    		<artifactId>guava</artifactId>
+    		<version>24.0-jre</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -99,6 +119,12 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>${appengine.maven.plugin.version}</version>
+				<configuration>
+					<jvmFlags>
+						<jvmFlag>-Xdebug</jvmFlag>
+						<jvmFlag>-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</jvmFlag>
+					</jvmFlags>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
